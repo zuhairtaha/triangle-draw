@@ -46,11 +46,19 @@ class TriangleDrawer {
   }
 
   /**
+   * Clear to avoid drawing many triangles
+   */
+  _clearCanvas() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+  /**
    * @param {number} side1
    * @param {number} side2
    * @param {number} side3
    */
   draw(side1, side2, side3) {
+    this._clearCanvas();
+
     const sides = this._getFitSids([side1, side2, side3]);
     const [a, b, c] = this._getPoints(sides[0], sides[1], sides[2]);
 
@@ -70,4 +78,11 @@ class TriangleDrawer {
 
 const canvas = document.querySelector('#myCanvas');
 const triangleDrawer = new TriangleDrawer(canvas);
-triangleDrawer.draw(500, 500, 500);
+
+document.querySelector('form').addEventListener('submit', evt => {
+  evt.preventDefault();
+
+  const sides = Array.from(document.querySelectorAll('input[type=number]')).map(x => parseInt(x.value));
+
+  triangleDrawer.draw(...sides);
+});
