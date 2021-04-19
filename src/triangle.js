@@ -1,4 +1,4 @@
-class TriangleDrawer {
+export class TriangleDrawer {
   /** @param {HTMLCanvasElement} canvas */
   constructor(canvas) {
     this.canvas = canvas;
@@ -42,7 +42,9 @@ class TriangleDrawer {
       return sides;
     }
 
-    return sides.map(s => Math.round(s * (maxCanvasLength / maxSideLength) - padding));
+    return sides.map(s =>
+      Math.round(s * (maxCanvasLength / maxSideLength) - padding)
+    );
   }
 
   /**
@@ -75,14 +77,3 @@ class TriangleDrawer {
     this.context.fill();
   }
 }
-
-const canvas = document.querySelector('#myCanvas');
-const triangleDrawer = new TriangleDrawer(canvas);
-
-document.querySelector('form').addEventListener('submit', evt => {
-  evt.preventDefault();
-
-  const sides = Array.from(document.querySelectorAll('input[type=number]')).map(x => parseInt(x.value));
-
-  triangleDrawer.draw(...sides);
-});
